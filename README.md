@@ -8,6 +8,10 @@ hosted on this server.
 - `docker images`
 - `docker run -p 8080:8080 -d jonforest/html-to-image`
 
+## Example for running locally
+- `npm install`
+- `node app.js`
+
 ## Example usage
 - `curl --data "html=<p>hello world</p>" http://localhost:8080/make-image`
 `> 4118204522.png`
@@ -19,3 +23,7 @@ before sending
 - The underlying library used for converting the html into an image does not support changing the size of the image, so you'll always get a 1280 x 800 image.  
   - If you're using the output to populate an <img> tag in your html, then I'd add a class with `max-width/height` and `overflow: hidden` to a surrounding div in order to make the page flow correctly.  The extra image is all transparent pixels, so the larger dimensions have minimal impact on the file size.
   - It's hacky, I'm sorry, and if I have a need I'll try to find a replacement library, the first version of this is written in a rush.
+
+  ## TODO:
+  - Allow port number to be set as an environment variable
+  - Change the underlying library to support modifying the image size
