@@ -1,4 +1,5 @@
 /node_modules
 
 # Cached images are stored here
-/public
+/public/*.png
+!/public/sbc-play-new.png
