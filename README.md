@@ -7,6 +7,8 @@ hosted on this server.
 - `docker build -t <yournamespace>/html-to-image .`
 - `docker images`
 - `docker run -p 8080:8080 -d jonforest/html-to-image`
+Or, you can share a volume so that your original web-site can server the images directly
+- `docker run -p 8080:8080 -d -v /var/www/html/assets/thumbnails:/usr/src/app/public jonforest/html-to-image`
 
 ## Example for running locally
 - `npm install`
