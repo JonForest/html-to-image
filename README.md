@@ -10,6 +10,9 @@ hosted on this server.
 Or, you can share a volume so that your original web-site can server the images directly
 - `docker run -p 8080:8080 -d -v /var/www/html/assets/thumbnails:/usr/src/app/public jonforest/html-to-image`
 
+### Trouble-shooting tips
+- The core library uses Phantom.js, which is pretty heavy on RAM during install.  On a Digital Ocean 512Mb memory box, this will probably fail.  Suggest you upgrade for the install, and then downgrade again when finished - or you can create a swap disk https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04
+
 ## Example for running locally
 - `npm install`
 - `node app.js`
