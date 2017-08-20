@@ -2,4 +2,3 @@
 
 # Cached images are stored here
 /public/*.png
-!/public/sbc-play-new.png
