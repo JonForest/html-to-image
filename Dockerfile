@@ -1,4 +1,4 @@
-FROM node:boron
+FROM buildkite/puppeteer
 
 # Create app directory
 RUN mkdir -p /usr/src/app

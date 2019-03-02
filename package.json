@@ -12,7 +12,7 @@
     "body-parser": "1.17.2",
     "express": "4.15.3",
     "forever": "0.15.3",
-    "html-convert": "2.1.7",
+    "puppeteer": "1.12.2",
     "string-hash": "1.1.3"
   }
 }

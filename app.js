@@ -2,18 +2,19 @@ const express = require('express')
 const app = express()
 const stringhash = require('string-hash')
 const fs = require('fs')
-const Readable = require('stream').Readable
-const convert = require('html-convert')({
-  width       : 600,        // Note: This doesn't appear to work as per the docs
-  height      : 200,
-})
+const puppeteer = require('puppeteer');
+// const Readable = require('stream').Readable
+// const convert = require('html-convert')({
+//   width       : 600,        // Note: This doesn't appear to work as per the docs
+//   height      : 200,
+// })
 const bodyParser = require('body-parser')
 const port = 8080
 
 app.use(express.static('public'))
 app.use(bodyParser());
 
-app.post('/make-image', function (req, res) {
+app.post('/make-image', async function (req, res) {
   const html = req.body.html
   const force = req.body.force
   
@@ -22,22 +23,16 @@ app.post('/make-image', function (req, res) {
   const filename = `${hash}.png`
   const imagepath = `./public/${filename}`
 
-  // See if the image has already been created
-  if (force || !fs.existsSync(imagepath)) {
-    // Else, we'll generate an image from the html
-    const s = new Readable();
-    s._read = function noop() {}; // Actually required
-    s.push(html);
-    s.push(null);
+  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+  const page = await browser.newPage()
+  await page.setContent(html)
+  await page.screenshot({path: imagepath})
+  await browser.close()
+  res.send(filename)
+})
 
-    const tmpFileStream = s.pipe(convert())
-      .pipe(fs.createWriteStream(imagepath))
-    tmpFileStream.on('finish', function () {
-      res.send(filename)
-    })
-  } else {  
-    res.send(filename)
-  }
+app.get('/ping', (req, res)=> {
+  res.send('pong')
 })
 
 app.listen(port, function () {
