@@ -23,12 +23,16 @@ app.post('/make-image', async function (req, res) {
   const filename = `${hash}.png`
   const imagepath = `./public/${filename}`
 
-  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
-  const page = await browser.newPage()
-  await page.setContent(html)
-  await page.screenshot({path: imagepath})
-  await browser.close()
-  res.send(filename)
+  if (force || !fs.existsSync(imagepath)) {
+    const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+    const page = await browser.newPage()
+    await page.setContent(html)
+    await page.screenshot({path: imagepath})
+    await browser.close()
+    res.send(filename)
+  } else {
+    res.send(filename)
+  }
 })
 
 app.get('/ping', (req, res)=> {
