@@ -20,14 +20,14 @@ app.post('/make-image', async function (req, res) {
   
   // Create a hash off the html
   const hash = stringhash(html)
-  const filename = `${hash}.png`
+  const filename = `${hash}.jpg`
   const imagepath = `./public/${filename}`
 
   if (force || !fs.existsSync(imagepath)) {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage()
     await page.setContent(html)
-    await page.screenshot({path: imagepath})
+    await page.screenshot({path: imagepath, type: 'jpeg'})
     await browser.close()
     res.send(filename)
   } else {
