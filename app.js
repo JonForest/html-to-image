@@ -24,7 +24,7 @@ app.post('/make-image', async function (req, res) {
   const imagepath = `./public/${filename}`
 
   if (force || !fs.existsSync(imagepath)) {
-    const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+    const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']});
     const page = await browser.newPage()
     await page.setContent(html)
     await page.screenshot({path: imagepath, type: 'jpeg'})
