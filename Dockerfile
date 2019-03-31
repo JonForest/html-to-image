@@ -1,4 +1,4 @@
-FROM buildkite/puppeteer:latest
+FROM quay.io/ivanvanderbyl/docker-nightmare:latest
 
 # Create app directory
 RUN mkdir -p /usr/src/app

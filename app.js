@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const stringhash = require('string-hash')
 const fs = require('fs')
-const puppeteer = require('puppeteer');
+const nightmare = require('nightmare');
 // const Readable = require('stream').Readable
 // const convert = require('html-convert')({
 //   width       : 600,        // Note: This doesn't appear to work as per the docs
@@ -20,18 +20,21 @@ app.post('/make-image', async function (req, res) {
   
   // Create a hash off the html
   const hash = stringhash(html)
-  const filename = `${hash}.jpg`
-  const imagepath = `./public/${filename}`
+  const tempHTML = `./tmp/${hash}.html`
+  const filename = `${hash}.png`
+  const imagepath = `./public/${imageFilename}`
 
   if (force || !fs.existsSync(imagepath)) {
-    const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']});
-    const page = await browser.newPage()
-    await page.setContent(html)
-    await page.screenshot({path: imagepath, type: 'jpeg'})
-    await browser.close()
-    res.send(filename)
+    nightmare
+      .goto(tempHTML)
+      .screenshot(imagePath)
+      .end()
+      .then(() => {
+        res.send(imageFilename)        
+      })
+      .catch(() => console.log('failed'))
   } else {
-    res.send(filename)
+    res.send(imageFilename)
   }
 })
 
