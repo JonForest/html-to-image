@@ -3,7 +3,6 @@ const app = express()
 const stringhash = require('string-hash')
 const fs = require('fs')
 const Nightmare = require('nightmare');
-const nightmare = Nightmare({ show: false })
 // const Readable = require('stream').Readable
 // const convert = require('html-convert')({
 //   width       : 600,        // Note: This doesn't appear to work as per the docs
@@ -16,6 +15,7 @@ app.use(express.static('public'))
 app.use(bodyParser());
 
 app.post('/make-image', async function (req, res) {
+  const nightmare = Nightmare({ show: false })
   const html = req.body.html
   const force = req.body.force
   
@@ -41,7 +41,7 @@ app.post('/make-image', async function (req, res) {
   } else {
     res.send(imageFilename)
   }
-})
+})  
 
 app.get('/ping', (req, res)=> {
   res.send('pong')
