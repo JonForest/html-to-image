@@ -16,4 +16,4 @@ COPY . /usr/src/app
 # Port used by app
 EXPOSE 8080
 
-CMD [ "forever", "app.js"]
+CMD "forever app.js"
