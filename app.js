@@ -2,7 +2,8 @@ const express = require('express')
 const app = express()
 const stringhash = require('string-hash')
 const fs = require('fs')
-const nightmare = require('nightmare');
+const Nightmare = require('nightmare');
+const nightmare = Nightmare({ show: false })
 // const Readable = require('stream').Readable
 // const convert = require('html-convert')({
 //   width       : 600,        // Note: This doesn't appear to work as per the docs
@@ -20,19 +21,23 @@ app.post('/make-image', async function (req, res) {
   
   // Create a hash off the html
   const hash = stringhash(html)
-  const tempHTML = `./tmp/${hash}.html`
-  const filename = `${hash}.png`
-  const imagepath = `./public/${imageFilename}`
+  const tempHTML = `/tmp/${hash}.html`
+  const imageFilename = `${hash}.png`
+  const imagePath = `./public/${imageFilename}`
 
-  if (force || !fs.existsSync(imagepath)) {
+  fs.writeFileSync(tempHTML, html)
+
+  if (force || !fs.existsSync(imagePath)) {
     nightmare
-      .goto(tempHTML)
+      .goto(`file://${tempHTML}`)
       .screenshot(imagePath)
       .end()
       .then(() => {
         res.send(imageFilename)        
       })
-      .catch(() => console.log('failed'))
+      .catch((e) => {
+        console.log('failed, ', e)
+      })
   } else {
     res.send(imageFilename)
   }
