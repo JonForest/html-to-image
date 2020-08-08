@@ -13,6 +13,7 @@
     "express": "4.15.3",
     "forever": "0.15.3",
     "html-convert": "2.1.7",
+    "phantomjs-prebuilt": "^2.1.16",
     "string-hash": "1.1.3"
   }
 }

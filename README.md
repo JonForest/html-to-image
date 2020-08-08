@@ -19,7 +19,6 @@ Or, you can share a volume so that your original web-site can server the images 
 
 ## Example usage
 - `curl --data "html=<p>hello world</p>" http://localhost:8080/make-image`
-`> 4118204522.png`
 - Browse to `http://localhost:8080/4118204522.png` to see the image
 
 ## Important notes:
